@@ -11,3 +11,4 @@ Dev opt(python Scraping)
 내가 필요한 기술
  각 쇼핑몰 사이트마다 상품의 이름, 상품의 가격 상품의 사진을 브라우저 개발자 도구를 이용해 분석하고 파이썬의 selenium을 사용하여 상품의 이름, 상품의 이름, 상품의 이미지(imgUrl)을 가져와 json형식으로 만든다.
  그 후 파이어베이스의 realtime database에 json 가져오기를 통해 데이터를 넣어준다.
+
