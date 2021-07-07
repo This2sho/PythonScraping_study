@@ -1,0 +1,53 @@
+import requests
+from bs4 import BeautifulSoup
+import json
+
+headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
+
+url = "https://codegreen.io/shop"
+name = "codegreen"
+
+# 저장할 파일 설정
+file_name = "data.json"
+
+data = dict() # 맨 처음 파일 쓸 때 씀. + test 용
+temp_list = []
+item = dict()
+logo_d = dict()
+
+res = requests.get(url, headers=headers)
+res.raise_for_status()
+soup = BeautifulSoup(res.text, "lxml")
+
+sells = soup.find_all("a", attrs={"class":"card_badge_best--wrapper"})
+
+# 저장된 파일에 추가하기
+with open(file_name, 'r', encoding="utf-8") as f:
+    read_data = json.load(f)
+
+# 필요한 데이터
+# 로고 
+# 상품 사진, 이름, 가격, 링크
+item_url = "https://codegreen.io"
+logo = item_url+ soup.find("div", attrs={"class":"logo_mobile"}).img["src"]
+logo_d["logo"] = logo
+temp_list.append(logo_d)
+
+for idx, sell in enumerate(sells):
+    if(idx >= 29):
+        break
+    item["img"] = sell.img["src"]
+    item["name"] = sell.next_sibling.h4.get_text()
+    item["price"] = sell.next_sibling.div.span.get_text()
+    item["link"] = item_url+ sell["href"]
+    temp_list.append(item)
+
+# 잘 써졌는지 확인용
+data[name] = temp_list
+with open("test.json", "w", encoding="utf-8") as make_file:
+    json.dump(data, make_file, indent="\t",ensure_ascii=False)
+
+# 파일 쓰기 test보고 잘 됐으면 ㄱㄱ
+# read_data[name] = temp_list
+# with open(file_name, "w", encoding="utf-8") as make_file:
+#     json.dump(read_data, make_file, indent="\t",ensure_ascii=False)
