@@ -20,4 +20,4 @@ Dev opt(python Scraping)
 
 11. for 반복문 안에서 idx, 객체 in enumerate(객체리스트) <- 함수를 통해 idx를 넣을 수 있다.
 
-f write를 통해 파일 저장가능!
+f write를 통해 파일 저장가능
